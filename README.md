@@ -3,6 +3,7 @@
 This asignment is created from Assignment 5 of [CS336 at Stanford taught in Spring 2025](https://stanford-cs336.github.io/spring2025/). 
 For the full description of the original assignment, see the assignment handout at
 [cs336_spring2024_assignment5_alignment.pdf](./cs336_spring2025_assignment5_alignment.pdf)
+Check out the [glossary of terms](./glossary.md) for this assignment.
 
 We include a supplemental (and completely optional) assignment on safety alignment, instruction tuning, and RLHF at [cs336_spring2025_assignment5_supplement_safety_rlhf.pdf](./cs336_spring2025_assignment5_supplement_safety_rlhf.pdf)
 
