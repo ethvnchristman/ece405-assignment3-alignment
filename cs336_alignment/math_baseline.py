@@ -19,10 +19,16 @@ PROMPT_PATH = Path("cs336_alignment/prompts/r1_zero.prompt")
 
 def _build_validation_set(seed: int = 42) -> list[dict]:
     from datasets import load_dataset
-    ds = load_dataset("qwedsacf/competition_math")
-    print("Dataset schema:", list(ds["train"][0].keys()))
 
-    examples = list(ds["train"])
+    try:
+        ds = load_dataset("qwedsacf/competition_math", trust_remote_code=True)
+        examples = list(ds["train"])
+    except NotImplementedError:
+        ds = load_dataset("qwedsacf/competition_math", streaming=True, trust_remote_code=True)
+        examples = list(ds["train"])
+
+    print("Dataset schema:", list(examples[0].keys()))
+
     rng = random.Random(seed)
     rng.shuffle(examples)
     val_examples = examples[-500:]
