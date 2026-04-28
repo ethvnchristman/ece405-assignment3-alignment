@@ -3,6 +3,13 @@ models/
 data/
 
 nav
+
+CONTEXT.md
+CLAUDE.md
+.claude/
+.aider*
+.cursor*
+.github/copilot*
 tags
 
 # Byte-compiled / optimized / DLL files
