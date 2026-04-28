@@ -118,7 +118,7 @@ def main() -> None:
 
     model_path = os.environ.get("MODEL_PATH", "Qwen/Qwen2.5-0.5B")
     print(f"Initializing vLLM: LLM(model={model_path!r}, dtype='bfloat16')")
-    llm = LLM(model=model_path, dtype="bfloat16")
+    llm = LLM(model=model_path, dtype="float16")
 
     sampling_params = SamplingParams(
         temperature=1.0,
