@@ -116,7 +116,7 @@ def main() -> None:
 
     prompts = [prompt_template.replace("{question}", rec["problem"]) for rec in records]
 
-    model_path = "../Qwen/Qwen2.5-0.5B"
+    model_path = os.environ.get("MODEL_PATH", "Qwen/Qwen2.5-0.5B")
     print(f"Initializing vLLM: LLM(model={model_path!r}, dtype='bfloat16')")
     llm = LLM(model=model_path, dtype="bfloat16")
 
