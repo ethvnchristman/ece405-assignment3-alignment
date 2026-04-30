@@ -22,9 +22,7 @@ def _build_validation_set(seed: int = 42) -> list[dict]:
 
     url = "https://huggingface.co/datasets/qwedsacf/competition_math/resolve/main/data/train-00000-of-00001-7320a6f3aba8ebd2.parquet"
     df = pd.read_parquet(url)
-    print("Dataset schema:", list(df.columns))
     examples = df.to_dict(orient="records")
-
     rng = random.Random(seed)
     rng.shuffle(examples)
     val_examples = examples[-500:]
@@ -45,7 +43,6 @@ def _load_or_build_validation_set() -> list[dict]:
     if VALIDATION_PATH.exists():
         with open(VALIDATION_PATH) as f:
             return [json.loads(line) for line in f]
-
     VALIDATION_PATH.parent.mkdir(parents=True, exist_ok=True)
     records = _build_validation_set()
     with open(VALIDATION_PATH, "w") as f:
@@ -107,18 +104,17 @@ def evaluate_vllm(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--n-examples", type=int, default=500)
+    parser.add_argument("--model-path", type=str,
+                        default=os.environ.get("MODEL_PATH", "Qwen/Qwen2.5-Math-1.5B"))
     args = parser.parse_args()
 
     prompt_template = PROMPT_PATH.read_text()
-
     records = _load_or_build_validation_set()
     records = records[: args.n_examples]
-
     prompts = [prompt_template.replace("{question}", rec["problem"]) for rec in records]
 
-    model_path = os.environ.get("MODEL_PATH", "Qwen/Qwen2.5-0.5B")
-    print(f"Initializing vLLM: LLM(model={model_path!r}, dtype='bfloat16')")
-    llm = LLM(model=model_path, dtype="float16")
+    print(f"Initializing vLLM: model={args.model_path!r}, dtype='float16'")
+    llm = LLM(model=args.model_path, dtype="float16")
 
     sampling_params = SamplingParams(
         temperature=1.0,
