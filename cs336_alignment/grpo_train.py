@@ -119,7 +119,7 @@ def run_grpo(
 
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     policy = AutoModelForCausalLM.from_pretrained(
-        model_path, torch_dtype=torch.float16
+        model_path, torch_dtype=torch.float16, attn_implementation="eager"
     ).to(policy_device)
     policy.config.use_cache = False
 

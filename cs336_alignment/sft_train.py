@@ -79,7 +79,7 @@ def run_sft(
 
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     model = AutoModelForCausalLM.from_pretrained(
-        model_path, torch_dtype=torch.float16
+        model_path, torch_dtype=torch.float16, attn_implementation="eager"
     ).to(device)
     model.config.use_cache = False
     model.gradient_checkpointing_enable()

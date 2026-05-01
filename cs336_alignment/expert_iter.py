@@ -194,7 +194,7 @@ def run_expert_iteration(
     print(f"Train: {len(train_items)} | Val: {len(val_items)}")
 
     model = AutoModelForCausalLM.from_pretrained(
-        model_path, trust_remote_code=True, torch_dtype=torch.float16
+        model_path, trust_remote_code=True, torch_dtype=torch.float16, attn_implementation="eager"
     ).to(policy_device)
     model.config.use_cache = False
     model.gradient_checkpointing_enable()
