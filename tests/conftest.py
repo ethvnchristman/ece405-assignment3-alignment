@@ -19,6 +19,8 @@ _A = TypeVar("_A", np.ndarray, Tensor)
 
 def _canonicalize_array(arr: _A) -> np.ndarray:
     if isinstance(arr, Tensor):
+        if arr.dtype == torch.bfloat16:
+            arr = arr.float()
         arr = arr.detach().cpu().numpy()
     return arr
 
@@ -210,7 +212,7 @@ def output_strs():
 
 @pytest.fixture
 def model_id():
-    return "/data/a5-alignment/models/Qwen2.5-Math-1.5B"
+    return "Qwen/Qwen2.5-Math-1.5B"
 
 
 @pytest.fixture
